@@ -4,12 +4,12 @@ QT += gui widgets sql
 CONFIG += c++11 silent
 
 # Build features
-webengine {
+#webengine {
     QT += webenginewidgets
     DEFINES += USE_WEBENGINE
-} else {
-    QT += webkitwidgets
-}
+#} else {
+ #   QT += webkitwidgets
+#}
 
 portable {
     DEFINES += PORTABLE_BUILD
