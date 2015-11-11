@@ -23,6 +23,8 @@
 
 #include "searchquery.h"
 
+#include <QDataStream>
+
 using namespace Zeal;
 
 namespace {

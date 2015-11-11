@@ -6,5 +6,9 @@ unix:!macx {
     PKGCONFIG += libarchive
 }
 win32: {
-    LIBS += -larchive_static -lz
+    INCLUDEPATH += D:\project\libarchive-3.1.2\libarchive
+
+
+
+    LIBS +=-LD:\project\libarchive-3.1.2\msvc\libarchive -larchive -luser32
 }

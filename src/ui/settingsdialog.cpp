@@ -60,7 +60,8 @@ const char RedirectServerUrl[] = "http://go.zealdocs.org";
 const char DocsetListCacheFileName[] = "com.kapeli.json";
 
 /// TODO: Make the timeout period configurable
-constexpr int CacheTimeout = 24 * 60 * 60 * 1000; // 24 hours in microseconds
+#define CacheTimeout  86400000
+//; // 24 hours in microseconds
 
 // QNetworkReply properties
 const char DocsetNameProperty[] = "docsetName";

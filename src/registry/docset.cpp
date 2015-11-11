@@ -323,15 +323,15 @@ QList<SearchResult> Docset::relatedLinks(const QUrl &url) const
     // Prepare the query to look up all pages with the same url.
     QString queryStr;
     if (m_type == Docset::Type::Dash) {
-        queryStr = QStringLiteral("SELECT name, type, path FROM searchIndex "
-                                  "WHERE path LIKE \"%1%%\" AND path <> \"%1\"");
+        queryStr = QStringLiteral("SELECT name, type, path FROM searchIndex \
+WHERE path LIKE \"%1%%\" AND path <> \"%1\"");
     } else if (m_type == Docset::Type::ZDash) {
-        queryStr = QStringLiteral("SELECT ztoken.ztokenname, ztokentype.ztypename, zfilepath.zpath, ztokenmetainformation.zanchor "
-                                  "FROM ztoken "
-                                  "JOIN ztokenmetainformation ON ztoken.zmetainformation = ztokenmetainformation.z_pk "
-                                  "JOIN zfilepath ON ztokenmetainformation.zfile = zfilepath.z_pk "
-                                  "JOIN ztokentype ON ztoken.ztokentype = ztokentype.z_pk "
-                                  "WHERE zfilepath.zpath = \"%1\" AND ztokenmetainformation.zanchor IS NOT NULL");
+        queryStr = QStringLiteral("SELECT ztoken.ztokenname, ztokentype.ztypename, zfilepath.zpath, ztokenmetainformation.zanchor \
+FROM ztoken \
+JOIN ztokenmetainformation ON ztoken.zmetainformation = ztokenmetainformation.z_pk \
+JOIN zfilepath ON ztokenmetainformation.zfile = zfilepath.z_pk \
+JOIN ztokentype ON ztoken.ztokentype = ztokentype.z_pk \
+WHERE zfilepath.zpath = \"%1\" AND ztokenmetainformation.zanchor IS NOT NULL");
     }
 
     QSqlQuery query(queryStr.arg(cleanUrl.toString()), database());
@@ -395,8 +395,8 @@ void Docset::countSymbols()
     if (m_type == Docset::Type::Dash) {
         queryStr = QStringLiteral("SELECT type, COUNT(*) FROM searchIndex GROUP BY type");
     } else if (m_type == Docset::Type::ZDash) {
-        queryStr = QStringLiteral("SELECT ztypename, COUNT(*) FROM ztoken JOIN ztokentype"
-                                  " ON ztoken.ztokentype = ztokentype.z_pk GROUP BY ztypename");
+        queryStr = QStringLiteral("SELECT ztypename, COUNT(*) FROM ztoken JOIN ztokentype\
+ ON ztoken.ztokentype = ztokentype.z_pk GROUP BY ztypename");
     }
 
     QSqlQuery query(queryStr, database());
@@ -430,14 +430,14 @@ void Docset::loadSymbols(const QString &symbolType, const QString &symbolString)
     if (m_type == Docset::Type::Dash) {
         queryStr = QStringLiteral("SELECT name, path FROM searchIndex WHERE type='%1' ORDER BY name ASC");
     } else {
-        queryStr = QStringLiteral("SELECT ztokenname AS name, "
-                                  "CASE WHEN (zanchor IS NULL) THEN zpath "
-                                  "ELSE (zpath || '#' || zanchor) "
-                                  "END AS path FROM ztoken "
-                                  "JOIN ztokenmetainformation ON ztoken.zmetainformation = ztokenmetainformation.z_pk "
-                                  "JOIN zfilepath ON ztokenmetainformation.zfile = zfilepath.z_pk "
-                                  "JOIN ztokentype ON ztoken.ztokentype = ztokentype.z_pk WHERE ztypename='%1' "
-                                  "ORDER BY ztokenname ASC");
+        queryStr = QStringLiteral("SELECT ztokenname AS name, \
+CASE WHEN (zanchor IS NULL) THEN zpath \
+ELSE (zpath || '#' || zanchor) \
+END AS path FROM ztoken \
+JOIN ztokenmetainformation ON ztoken.zmetainformation = ztokenmetainformation.z_pk \
+JOIN zfilepath ON ztokenmetainformation.zfile = zfilepath.z_pk \
+JOIN ztokentype ON ztoken.ztokentype = ztokentype.z_pk WHERE ztypename='%1' \
+ORDER BY ztokenname ASC");
     }
 
     QSqlQuery query(queryStr.arg(symbolString), database());
@@ -455,8 +455,7 @@ void Docset::createIndex()
 {
     static const QString indexListQuery = QStringLiteral("PRAGMA INDEX_LIST('%1')");
     static const QString indexDropQuery = QStringLiteral("DROP INDEX '%1'");
-    static const QString indexCreateQuery = QStringLiteral("CREATE INDEX IF NOT EXISTS %1%2"
-                                                           " ON %3 (name COLLATE NOCASE)");
+    static const QString indexCreateQuery = QStringLiteral("CREATE INDEX IF NOT EXISTS %1%2 ON %3 (name COLLATE NOCASE)");
 
     QSqlQuery query(database());
 

@@ -186,7 +186,7 @@ void Application::checkForUpdate(bool quiet)
         }
 
         const QJsonObject latestVersionInfo = jsonDoc.array().first().toObject();
-        const Util::Version latestVersion = latestVersionInfo[QStringLiteral("version")].toString();
+        const Util::Version latestVersion = latestVersionInfo[QString("version")].toString();
         if (latestVersion > Util::Version(QCoreApplication::applicationVersion()))
             emit updateCheckDone(latestVersion.toString());
         else if (!quiet)
